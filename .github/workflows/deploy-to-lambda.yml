@@ -10,9 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout the code from the repository
       - name: Checkout the code
         uses: actions/checkout@v2
 
+      # Set up AWS credentials using GitHub Secrets
       - name: Set up AWS CLI
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -20,22 +22,27 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
+      # Install dependencies and package them with the Lambda function code
       - name: Install dependencies (if any)
         run: |
-          python3 -m venv venv  # Create a virtual environment
-          source venv/bin/activate  # Activate the environment
-          pip install --upgrade pip  # Upgrade pip
-          pip install -r requirements.txt  # Install the dependencies from requirements.txt
+          # Create a directory for the dependencies
+          mkdir -p python
+          
+          # Install dependencies listed in requirements.txt into the 'python/' directory
+          pip install -r requirements.txt -t python/
 
+      # Package the Lambda function and dependencies into a zip file
       - name: Package the Lambda code
         run: |
-          # Zip the dependencies
-          # If you have multiple files or dependencies, you can zip them
-          zip -r function.zip . -x "*.git*" -x "venv/*"
+          # Create a zip file containing the function code and installed dependencies
+          zip -r function.zip . -x "*.git*" -x "venv/*" -x "python/*"
+          
+          # Include dependencies by zipping the 'python' directory
+          zip -r function.zip python/
 
+      # Deploy to Lambda using the AWS CLI
       - name: Deploy to Lambda
         run: |
-          # Deploy to Lambda using the AWS CLI
           aws lambda update-function-code \
             --function-name pb_Lambda \
             --zip-file fileb://function.zip
