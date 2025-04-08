@@ -34,11 +34,12 @@ jobs:
       # Package the Lambda function and dependencies into a zip file
       - name: Package the Lambda code
         run: |
-          # Create a zip file containing the function code and installed dependencies
-          zip -r function.zip . -x "*.git*" -x "venv/*" -x "python/*"
-          
-          # Include dependencies by zipping the 'python' directory
-          zip -r function.zip python/
+          # Create the deployment package (zip file)
+          cd package
+          zip -r ../function.zip .
+
+          cd ..
+          zip -r function.zip lambda_function.py
 
       # Deploy to Lambda using the AWS CLI
       - name: Deploy to Lambda
