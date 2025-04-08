@@ -64,7 +64,7 @@ jobs:
           aws lambda update-function-code \
             --function-name pb_Lambda \
             --zip-file fileb://function.zip
-      # Test Lambda Function
+      # Test Lambda Function now
       - name: Test Lambda Function
         run: |
           # Trigger a test event to invoke Lambda function
