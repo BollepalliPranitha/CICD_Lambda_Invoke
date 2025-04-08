@@ -1,4 +1,4 @@
-# import json
+import json
 # import requests
 import pandas as pd
 import boto3
@@ -56,8 +56,14 @@ def lambda_handler(event, context):
     # Get the first 5 rows of the DataFrame
     result = df.head()
 
-    # Convert the DataFrame to JSON format and return it as a response
-    return {
+    # Prepare a response with status code and the result in the body
+    response = {
         'statusCode': 200,
-        'body': result.to_json(orient='split')  # You can choose other formats like 'records' or 'index'
+        'body': json.dumps({
+            'columns': df.columns.tolist(),
+            'data': result.values.tolist(),
+            'index': result.index.tolist()
+        })
     }
+    
+    return response
