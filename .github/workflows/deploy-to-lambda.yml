@@ -1,0 +1,40 @@
+name: Deploy Python Code to Lambda
+
+on:
+  push:
+    branches:
+      - main  # Trigger on push to main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+
+      - name: Set up AWS CLI
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Install dependencies (if any)
+        run: |
+          # Install dependencies if your code requires them
+          # For example, if you use any packages like `requests`, you can install them here
+          # pip install -r requirements.txt
+          echo "No dependencies for this example"
+
+      - name: Package the Lambda code
+        run: |
+          # If you have multiple files or dependencies, you can zip them
+          zip -r function.zip .
+
+      - name: Deploy to Lambda
+        run: |
+          # Deploy to Lambda using the AWS CLI
+          aws lambda update-function-code \
+            --function-name MyPythonLambda \
+            --zip-file fileb://function.zip
