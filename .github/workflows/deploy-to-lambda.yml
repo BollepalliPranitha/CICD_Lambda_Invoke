@@ -71,6 +71,7 @@ jobs:
           response=$(aws lambda invoke \
             --function-name pb_Lambda \
             --payload '{"key1": "value1"}' \
+            --cli-binary-format raw-in-base64-out \
             response.json)
 
           # Print the output of the Lambda invocation
