@@ -36,5 +36,5 @@ jobs:
         run: |
           # Deploy to Lambda using the AWS CLI
           aws lambda update-function-code \
-            --function-name MyPythonLambda \
+            --function-name pb_Lambda \
             --zip-file fileb://function.zip
