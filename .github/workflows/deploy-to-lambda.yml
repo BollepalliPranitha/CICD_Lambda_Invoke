@@ -46,7 +46,7 @@ jobs:
       - name: Add IAM Policy to Lambda Role
         run: |
           aws iam put-role-policy \
-            --role-name lambda-execution-role \
+            --role-name pb_Lambda-role-p701530o \
             --policy-name S3FullAccess \
             --policy-document '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Action":["s3:GetObject","s3:ListBucket"],"Resource":["arn:aws:s3:::sn-bd-test","arn:aws:s3:::sn-bd-test/*"]}]}'
 
