@@ -74,6 +74,6 @@ jobs:
             --cli-binary-format raw-in-base64-out \
             response.json)
 
-          # Print the output of the Lambda invocation
+          # Printing the output of the Lambda invocation
           echo "Lambda Response: $response"
           cat response.json
