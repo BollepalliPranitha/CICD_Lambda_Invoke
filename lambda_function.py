@@ -56,7 +56,7 @@ def lambda_handler(event, context):
     # Get the first 5 rows of the DataFrame
     result = df.head()
 
-    # Prepare a response with status code and the result in the body
+    # Preparing  a response with status code and the result in the body
     response = {
         'statusCode': 200,
         'body': json.dumps({
