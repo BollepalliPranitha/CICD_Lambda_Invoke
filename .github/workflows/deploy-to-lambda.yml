@@ -39,7 +39,7 @@ jobs:
           cd package
           zip -r ../function.zip .
           
-          # Add your lambda function code to the deployment package
+          # Adding the lambda function code to the deployment package
           cd ..
           zip -r function.zip lambda_function.py
 
