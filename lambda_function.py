@@ -53,5 +53,11 @@ def lambda_handler(event, context):
     # Read the CSV file using pandas
     df = pd.read_csv('/tmp/car_dataset.csv')
     
-    # Print the first 5 rows of a specific column (e.g., 'make')
-    print(df.head()) 
+    # Get the first 5 rows of the DataFrame
+    result = df.head()
+
+    # Convert the DataFrame to JSON format and return it as a response
+    return {
+        'statusCode': 200,
+        'body': result.to_json(orient='split')  # You can choose other formats like 'records' or 'index'
+    }
