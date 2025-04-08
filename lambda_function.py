@@ -55,7 +55,7 @@ def lambda_handler(event, context):
     
     result = df.head()
 
-    # Convert the DataFrame to JSON format and return it as a response
+    # Convert - the DataFrame to JSON format and return it as a response
     return {
         'statusCode': 200,
         'body': result.to_json(orient='split')  # You can choose other formats like 'records' or 'index'
