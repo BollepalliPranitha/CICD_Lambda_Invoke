@@ -29,6 +29,7 @@ jobs:
 
       - name: Package the Lambda code
         run: |
+          # Zip the dependencies
           # If you have multiple files or dependencies, you can zip them
           zip -r function.zip .
 
