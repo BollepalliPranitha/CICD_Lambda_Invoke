@@ -64,3 +64,15 @@ jobs:
           aws lambda update-function-code \
             --function-name pb_Lambda \
             --zip-file fileb://function.zip
+      # Test Lambda Function
+      - name: Test Lambda Function
+        run: |
+          # Trigger a test event to invoke Lambda function
+          response=$(aws lambda invoke \
+            --function-name pb_Lambda \
+            
+            response.json)
+
+          # Print the output of the Lambda invocation
+          echo "Lambda Response: $response"
+          cat response.json

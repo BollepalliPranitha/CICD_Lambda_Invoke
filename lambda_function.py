@@ -54,4 +54,4 @@ def lambda_handler(event, context):
     df = pd.read_csv('/tmp/car_dataset.csv')
     
     # Print the first 5 rows of a specific column (e.g., 'make')
-    print(df['make'].head())  # Adjust 'make' to the actual column name in your CSV file
+    print(df.head()) 
