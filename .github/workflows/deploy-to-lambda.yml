@@ -25,6 +25,7 @@ jobs:
       # Install dependencies and package them with the Lambda function code
       - name: Install dependencies (if any)
         run: |
+          # Not specifically required
           # Create a temporary directory for the dependencies
           mkdir -p package
 
