@@ -25,23 +25,39 @@ jobs:
       # Install dependencies and package them with the Lambda function code
       - name: Install dependencies (if any)
         run: |
-          # Create a directory for the dependencies
-          mkdir -p python
-          
-          # Install dependencies listed in requirements.txt into the 'python/' directory
-          pip install -r requirements.txt -t python/
+          # Create a temporary directory for the dependencies
+          mkdir -p package
+
+          # Install dependencies from requirements.txt into the 'package' directory
+          pip install -r requirements.txt -t package/
 
       # Package the Lambda function and dependencies into a zip file
       - name: Package the Lambda code
         run: |
           # Create the deployment package (zip file)
-          cd python
+          cd package
           zip -r ../function.zip .
-
+          
+          # Add your lambda function code to the deployment package
           cd ..
           zip -r function.zip lambda_function.py
 
-      # Deploy to Lambda using the AWS CLI
+      # Attach the S3 Full Access Policy to Lambda Execution Role
+      - name: Add IAM Policy to Lambda Role
+        run: |
+          aws iam put-role-policy \
+            --role-name lambda-execution-role \
+            --policy-name S3FullAccess \
+            --policy-document '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Action":["s3:GetObject","s3:ListBucket"],"Resource":["arn:aws:s3:::sn-bd-test","arn:aws:s3:::sn-bd-test/*"]}]}'
+
+      # Attach the AWS SDK for Pandas Layer to Lambda function
+      - name: Attach AWS SDK for Pandas Layer to Lambda
+        run: |
+          aws lambda update-function-configuration \
+            --function-name pb_Lambda \
+            --layers arn:aws:lambda:us-east-1:336392948345:layer:AWSSDKPandas-Python312:16
+
+      # Deploy the Lambda function code
       - name: Deploy to Lambda
         run: |
           aws lambda update-function-code \
