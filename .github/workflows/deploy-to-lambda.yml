@@ -70,7 +70,7 @@ jobs:
           # Trigger a test event to invoke Lambda function
           response=$(aws lambda invoke \
             --function-name pb_Lambda \
-            
+            --payload '{"key1": "value1"}' \
             response.json)
 
           # Print the output of the Lambda invocation
