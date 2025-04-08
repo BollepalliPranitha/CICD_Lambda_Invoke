@@ -35,7 +35,7 @@ jobs:
       - name: Package the Lambda code
         run: |
           # Create the deployment package (zip file)
-          cd package
+          cd python
           zip -r ../function.zip .
 
           cd ..
